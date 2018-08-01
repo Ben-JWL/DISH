@@ -4,6 +4,13 @@ This R script is designed to impute summary association statistics of HLA varian
 from SNP summary association statistics based on linkage disequilibria 
 in European and Asian populations. 
 
+!You can download the reference files from this link
+
+https://drive.google.com/drive/folders/1DvyT4Ja_zRpS2cA0LkKIeXrXWQR2LlkC?usp=sharing
+
+!Reference files and R script must be located in same directory
+
+
 
 usage: Rscript DiSH.r input_file input_type(T/P) hg_version(hg18/hg19) ethnicity(EUR/ASN) MAF_threshold stat_type(Z/T) output (lambda)
 
