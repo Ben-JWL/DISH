@@ -22,8 +22,8 @@ start = Sys.time()
 print("reading arguments...")
 args = commandArgs(TRUE)
 argsLen <- length(args)
-if (argsLen > 7) stop('error: You added too many arguments - usage: Rscript DISH.v2.r input_file MAF ethnicity(European/Asian) output')
-if (argsLen < 6) stop('error: You need more auguments. check the usage - usage: Rscript DISH.v2.r input_file MAF ethnicity(European/Asian) output')
+if (argsLen > 8) stop('error: You added too many arguments - usage: Rscript DISH.v2.r input_file input_type hg_version ethnicity MAF_threshold stat_type output (lambda)')
+if (argsLen < 7) stop('error: You need more auguments. check the usage - usage: Rscript DISH.v2.r input_file input_type hg_version ethnicity MAF_threshold stat_type output (lambda)')
 
 study_map_file = args[1]
 if(!file.exists(study_map_file)){stop('error: The incorrect path of your input file')}
