@@ -10,7 +10,8 @@
 ####
 #### V1 was written by Jiwoo Lim and Kwangwoo Kim (kkim@khu.ac.kr) on July-16, 2018
 #### V2 was modified by Jiwoo Lim (jiwooim0922@gmail.com) on July-30, 2018
-####
+#### slightly modified by Kwangwoo on Dec-18, 2021 ##KK
+#### 
 ##############################################################################################
 ####
 #### usage: Rscript DiSH.r input_file input_type hg_version ethnicity MAF_threshold stat_type output (lambda)
@@ -22,8 +23,8 @@ start = Sys.time()
 print("reading arguments...")
 args = commandArgs(TRUE)
 argsLen <- length(args)
-if (argsLen > 7) stop('error: You added too many arguments - usage: Rscript DISH.v2.r input_file MAF ethnicity(European/Asian) output')
-if (argsLen < 6) stop('error: You need more auguments. check the usage - usage: Rscript DISH.v2.r input_file MAF ethnicity(European/Asian) output')
+if (argsLen > 8) stop('error: You added too many arguments - usage: Rscript DiSH.r input_file input_type hg_version ethnicity MAF_threshold stat_type output (lambda)') ##KK
+if (argsLen < 6) stop('error: You need more auguments. check the usage - usage: Rscript DiSH.r input_file input_type hg_version ethnicity MAF_threshold stat_type output (lambda)') ##KK
 
 study_map_file = args[1]
 if(!file.exists(study_map_file)){stop('error: The incorrect path of your input file')}
@@ -77,13 +78,15 @@ if(hg_ver == "hg18"){
 ## Check & Read the user defined input file
 print("reading your input file...")
 if(input_type=="T"){
-	study_map = complete.cases(read.table(study_map_file, header=T, sep="\t", stringsAsFactors=F))
+	study_map = read.table(study_map_file, header=T, sep="\t", stringsAsFactors=F) ##KK
+  study_map = study_map[complete.cases(study_map), ] ##KK
 }else if(input_type=="P"){
 	print("Merge your .frq file with your statistics information")
 	Ffile = read.table(pasete0(study_map_file,".frq",collapse=NULL), header=T,stringsAsFactors=F)
 	Tfile = read.table(pasete0(study_map_file,".txt",collapse=NULL), header=T,stringsAsFactors=F)
-	Mfile = complete.cases(merge(x=Ffile,y=Tfile,by='SNP'))
-	Mfile = Mfile[order(Mfile$SNP_pos),]
+	Mfile = merge(x=Ffile,y=Tfile,by='SNP')
+  Mfile = Mfile[complete.cases(Mfile), ] ##KK
+	Mfile = Mfile[order(Mfile$SNP_pos),]   ##KK
 	study_map = Mfile[,c("SNP","SNP_pos","A1","A2","STAT")]
 	if(stat=="Z"){
 		colnames(study_map) <- c("SNP_id","SNP_pos","Effect_allele","Non_effect_allele","Z")
